@@ -1,5 +1,5 @@
 function getValues() {
-
+    
     let maxValue = document.getElementById("maxValue").value;
     let fizzValue = document.getElementById("fizzValue").value;
     let buzzValue = document.getElementById("buzzValue").value;
@@ -9,38 +9,77 @@ function getValues() {
     buzzValue = parseInt(buzzValue);
 
     if(Number.isInteger(maxValue) && Number.isInteger(fizzValue) && Number.isInteger(buzzValue)){
-        if((fizzValue < maxValue) && (buzzValue < maxValue)){
-            let fbData = FizzBuzzA(maxValue, fizzValue, buzzValue);
+        if((maxValue >= fizzValue) && (maxValue >= buzzValue)){
+            let fbData = FizzBuzzC(maxValue, fizzValue, buzzValue);
             displayData(fbData);
         } else {
-            alert("The fizz and buzz values have to be smaller than the maximum value");
+            alert("The maximum value should be bigger than the Fizz and Buzz values");
         }
     } else {
-        alert("You must enter integers");
+        alert("All entries should be integers");
     }
+
 }
 
+// Common way of creating the array
 function FizzBuzzA(maxValue, value1, value2) {
+
     let returnArray = [];
-    let fizz = false;
-    let buzz = false;
-    for(let i = 1; i <= maxValue; i++){
-        fizz = i % value1 == 0;
-        buzz = i % value2 == 0;
+
+    for(let i = 1; i <= maxValue; i++) {
+        if((i % value1 == 0) && (i % value2 == 0)){
+            returnArray.push("FizzBuzz");
+        } else if (i % value1 == 0) {
+            returnArray.push("Fizz");
+        } else if (i % value2 == 0) {
+            returnArray.push("Buzz");
+        } else {
+            returnArray.push(i);
+        }
+    }
+
+    return returnArray;
+}
+
+// A slightly better way to create the array while following DRY (don't repeat yourself)
+function FizzBuzzB(maxValue, value1, value2) {
+
+    let returnArray = [];
+    let Fizz = false;
+    let Buzz = false;
+
+    for(let i = 1; i <= maxValue; i++) {
+        Fizz = i % value1 == 0;
+        Buzz = i % value2 == 0;
+
         switch(true) {
-            case fizz && buzz:
-                returnArray.push("FizzBuzz")
+            case Fizz && Buzz:
+                returnArray.push("FizzBuzz");
                 break;
-            case fizz:
+            case Fizz:
                 returnArray.push("Fizz");
                 break;
-            case buzz:
+            case Buzz:
                 returnArray.push("Buzz");
                 break;
             default:
                 returnArray.push(i);
                 break;
         }
+    }
+
+    return returnArray;
+
+}
+
+// Return the array using a tienary operator
+function FizzBuzzC(maxValue, value1, value2) {
+    
+    let returnArray = [];
+
+    for(let i = 1; i <= maxValue; i++) {
+        let value = ((i % value1 == 0 ? 'Fizz' : '') + (i % value2 == 0 ? 'Buzz' : '') || i);
+        returnArray.push(value);
     }
 
     return returnArray;
